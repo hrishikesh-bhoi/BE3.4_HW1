@@ -31,10 +31,16 @@ app.post('/books/:id', (req, res) => {
     if(! bookToUpdate) {
         return res.status(404).send('Book not found');
     } else {
+
+        if(!updatedBookData.title || !updatedBookData.author || !updatedBookData.year) {
+            return res.status(400).json({ message: 'Invalid book data. Please provide title, author, and year.' });
+        } else {
         Object.assign(bookToUpdate, updatedBookData);
         // { id: 2, title: 'To Kill a Mockingbird', author: 'Harper Lee', year: 1970 }
         res.status(200).json({ message: 'Book updated successfully', book: bookToUpdate });
+        }
     }
+    
 });
 
 // 3.Write a GET route "/books" which sends the books array in response. Test your API with Postman and see that the above book with id 2 is updated.
@@ -60,16 +66,22 @@ app.post('/todos/:id', (req, res) => {
 
     if(! todoToUpdate) {
         return res.status(404).send('Todo not found');
-    } else {
+    } 
+    else {
+        if(!updatedTodoData.title || !updatedTodoData.day) {
+            return res.status(400).json({ message: 'Invalid todo data. Please provide title and day.' });
+        } else {
         Object.assign(todoToUpdate, updatedTodoData);
         // { id: 1, title: 'Water the non-cactus plants', day: 'Saturday' }
         res.status(200).json({ message: 'Todo updated successfully', todo: todoToUpdate });
     }
+}
+    
 });
 
 
 
-5. Write a GET route "/todos" which sends the todos array in response. Test your API with Postman.
+// 5. Write a GET route "/todos" which sends the todos array in response. Test your API with Postman.
 app.get('/todos', (req, res) => {
     res.send(todos);
 });
